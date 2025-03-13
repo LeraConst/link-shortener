@@ -21,7 +21,7 @@ EXPOSE 8080
 
 # Переменные окружения для хранилища
 ENV STORAGE_TYPE memory
-ENV DB_CONN_STR postgres://user:password@localhost/dbname?sslmode=disable
+ENV DB_CONN_STR postgres://postgres:password@localhost/dbname?sslmode=disable
 
 # Команда запуска
 CMD ["./cmd/myapp"]
