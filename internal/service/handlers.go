@@ -64,6 +64,7 @@ func ShortenHandler(store storage.Storage) http.HandlerFunc {
 				http.Error(res, `{"error": "Ошибка записи в ответ"}`, http.StatusInternalServerError)
 				return
 			}
+			return
 		}
 
 		// Генерируем новую короткую ссылку
