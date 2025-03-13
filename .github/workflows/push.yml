@@ -1,0 +1,40 @@
+name: CI for Link Shortener
+
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Использовать последнюю версию Ubuntu для сборки
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'  # Устанавливаем нужную версию Go
+
+      - name: Download dependencies
+        run: |
+          go mod download
+
+      - name: Lint Go code
+        run: |
+          go vet ./...
+
+      - name: Run Unit Tests
+        run: |
+          go test -v ./...
+
+      - name: Build binary
+        run: |
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o cmd/myapp cmd/main.go
+
+      - name: Build Docker image
+        run: sudo docker build -t link-shortener .
+
+      - name: Run Docker container
+        run: sudo docker run -d --name link-shortener -p 8080:8080 link-shortener
+
+      - name: Cleanup
+        run: sudo docker stop link-shortener && docker rm link-shortener
