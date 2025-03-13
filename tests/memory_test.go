@@ -19,12 +19,12 @@ func TestMemoryStorage(t *testing.T) {
 	// Получаем ссылку
 	result := store.Get(shortURL)
 	if result != originalURL {
-		t.Errorf("Expected %s, but got %s", originalURL, result)
+		t.Errorf("Ожидалось %s, получено %s", originalURL, result)
 	}
 
 	// Проверяем, что ссылки одинаковые
 	existingShort := store.CheckExists(originalURL)
 	if existingShort != shortURL {
-		t.Errorf("Expected short URL %s, but got %s", shortURL, existingShort)
+		t.Errorf("Ожидался короткий URL %s, получен %s", shortURL, existingShort)
 	}
 }

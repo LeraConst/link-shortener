@@ -60,8 +60,10 @@ func ShortenHandler(store storage.Storage) http.HandlerFunc {
 
 			// Записываем JSON в ответ
 			res.Header().Set("Content-Type", "application/json")
-			res.Write(responseData)
-			return
+			if _, err := res.Write(responseData); err != nil {
+				http.Error(res, `{"error": "Ошибка записи в ответ"}`, http.StatusInternalServerError)
+				return
+			}
 		}
 
 		// Генерируем новую короткую ссылку
@@ -80,7 +82,10 @@ func ShortenHandler(store storage.Storage) http.HandlerFunc {
 
 		// Записываем JSON в ответ
 		res.Header().Set("Content-Type", "application/json")
-		res.Write(responseData)
+		if _, err := res.Write(responseData); err != nil {
+			http.Error(res, `{"error": "Ошибка записи в ответ"}`, http.StatusInternalServerError)
+			return
+		}
 	}
 }
 

@@ -5,12 +5,14 @@ import (
 	"log"
 )
 
+// Storage — это интерфейс, который определяет методы для работы с хранилищем URL.
 type Storage interface {
 	Save(originalURL, shortURL string)
 	Get(shortURL string) string
 	CheckExists(originalURL string) string
 }
 
+// PostgresStorage — это реализация интерфейса Storage для работы с базой данных PostgreSQL
 type PostgresStorage struct {
 	db *sql.DB
 }

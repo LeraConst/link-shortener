@@ -2,6 +2,9 @@ package storage
 
 import "sync"
 
+// MemoryStorage — это структура, реализующая хранение ссылок в памяти.
+// Она использует map для хранения "сокращённый URL - оригинальный URL".
+// Доступ к данным защищён мьютексами, чтобы обеспечить безопасность при выполнении несколько обработчиков одновременно
 type MemoryStorage struct {
 	data map[string]string
 	mu   sync.RWMutex

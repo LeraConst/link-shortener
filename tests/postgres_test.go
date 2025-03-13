@@ -14,7 +14,7 @@ func setupPostgresTestDB(t *testing.T) *storage.PostgresStorage {
 	connStr := "postgres://postgres:password@localhost:5432/dbname?sslmode=disable"
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-		log.Fatalf("Unable to connect to the database: %v", err)
+		log.Fatalf("Невозможно подключиться к базе данных: %v", err)
 		t.FailNow()
 	}
 
@@ -31,7 +31,7 @@ func setupPostgresTestDB(t *testing.T) *storage.PostgresStorage {
 		original_url TEXT UNIQUE NOT NULL
 	)`)
 	if err != nil {
-		t.Fatalf("Failed to create table: %v", err)
+		t.Fatalf("Не удалось создать таблицу: %v", err)
 	}
 
 	// Создаем хранилище

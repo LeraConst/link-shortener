@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"github.com/LeraConst/link-shortener/internal/storage"
+
 	"github.com/LeraConst/link-shortener/internal/service"
+	"github.com/LeraConst/link-shortener/internal/storage"
 )
 
 func TestResolveHandler(t *testing.T) {
@@ -26,12 +27,12 @@ func TestResolveHandler(t *testing.T) {
 
 	// Проверяем, что был редирект
 	if rec.Code != http.StatusFound {
-		t.Errorf("Expected status code 302, but got %d", rec.Code)
+		t.Errorf("Ожидался код статуса 302, но получен %d", rec.Code)
 	}
 
 	// Проверяем, что в Location заголовке правильный URL
 	location := rec.Header().Get("Location")
 	if location != originalURL {
-		t.Errorf("Expected Location header %s, but got %s", originalURL, location)
+		t.Errorf("Ожидалось %s, но получен %s", originalURL, location)
 	}
 }

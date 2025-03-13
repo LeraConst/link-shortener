@@ -6,8 +6,9 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"github.com/LeraConst/link-shortener/internal/storage"
+
 	"github.com/LeraConst/link-shortener/internal/service"
+	"github.com/LeraConst/link-shortener/internal/storage"
 )
 
 func TestShortenHandler(t *testing.T) {
@@ -25,16 +26,16 @@ func TestShortenHandler(t *testing.T) {
 
 	// Проверяем, что код ответа 200
 	if rec.Code != http.StatusOK {
-		t.Errorf("Expected status code 200, but got %d", rec.Code)
+		t.Errorf("Ожидался код статуса 200, но получен %d", rec.Code)
 	}
 
 	// Проверяем, что в ответе есть короткая ссылка
 	var response map[string]string
 	err := json.Unmarshal(rec.Body.Bytes(), &response)
 	if err != nil {
-		t.Fatalf("Failed to unmarshal response: %v", err)
+		t.Fatalf("Не удалось демаршалировать ответ: %v", err)
 	}
 	if response["short_url"] == "" {
-		t.Errorf("Expected short_url in response, but got empty")
+		t.Errorf("Ожидался короткий URL, получен пустой ответ")
 	}
 }

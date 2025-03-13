@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/LeraConst/link-shortener/internal/service"
 	"github.com/LeraConst/link-shortener/internal/storage"
@@ -14,16 +15,28 @@ import (
 var store storage.Storage // интерфейс для работы с разными хранилищами
 
 func main() {
+	// Читаем значение из переменных окружения, если они есть
+	defaultStorage := os.Getenv("STORAGE_TYPE")
+	if defaultStorage == "" {
+		defaultStorage = "memory" // Значение по умолчанию
+	}
+	defaultDbConn := os.Getenv("DB_CONN_STR")
+	if defaultDbConn == "" {
+		defaultStorage = "postgres://postgres:password@localhost/testdb?sslmode=disable"
+	}
+
 	// Флаг для выбора хранилища
-	storageType := flag.String("storage", "memory", "Тип хранилища: memory или postgres")
-	dbConnStr := flag.String("db", "postgres://user:password@localhost/dbname?sslmode=disable", "Строка подключения к PostgreSQL")
+	storageType := flag.String("storage", defaultStorage, "Тип хранилища: memory или postgres")
+	dbConnStr := flag.String("db", defaultDbConn, "Строка подключения к PostgreSQL")
 	flag.Parse()
 
 	// Выбираем хранилище
 	switch *storageType {
 	case "postgres":
+		fmt.Println("Используем хранилище:", *storageType)
 		store = storage.NewPostgresStorage(*dbConnStr)
 	case "memory":
+		fmt.Println("Используем хранилище:", *storageType)
 		store = storage.NewMemoryStorage()
 	default:
 		log.Fatal("Неизвестный тип хранилища")
